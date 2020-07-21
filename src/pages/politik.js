@@ -15,9 +15,9 @@ class BlogIndex extends React.Component {
       <Layout location={this.props.location}>
         <div style={{ background: '#fff' }}>
           <Helmet title={siteTitle} />
-          <div className={styles.hero}>Blogo</div>
+          <div className={styles.hero}>Polotik</div>
           <div className="wrapper">
-            <h2 className="section-headline">Senaste Artiklar</h2>
+            <h2 className="section-headline">Senaste käbbel</h2>
             <ul className="article-list">
               {posts.map(({ node }) => {
                 return (
@@ -37,8 +37,8 @@ class BlogIndex extends React.Component {
 export default BlogIndex
 
 export const pageQuery = graphql`
-  query BlogIndexQuery {
-    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
+  query PolitikQuery {
+    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }, filter: {tags: {eq: "politik"}}) {
       edges {
         node {
           title
