@@ -1,7 +1,6 @@
 .navigation {
   position: relative;
   display: flex;
-  justify-content: center;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -9,12 +8,20 @@
   max-height: 100px;
   font-size: 1.25em;
   background-color: white;
+  white-space: nowrap;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
 }
+
+/* .navigation::-webkit-scrollbar{
+  display: none;
+} */
 
 .navigationItem {
   display: inline-flex;
   align-items: center;
-  margin: 0 1em;
+  margin: auto;
+  padding: 0 1em;
 }
 
 .navigationItem a {
@@ -22,11 +29,11 @@
 }
 
 .logo {
-  position: absolute;
-  left: 0;
-  padding-left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  font-size: xx-large;
+  font-family: PublicoBanner,Times,Georgia,serif;
+  color: #fff;
+  background-color: #333;
+  padding: 5px 10px;
 }
 
 .logolink {

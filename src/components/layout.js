@@ -4,10 +4,10 @@ import Container from './container'
 import Navigation from './navigation'
 
 
-const DynCol = ({children}) => {
+const Columns = ({children}) => {
   console.log('the children', children)
   return (
-    <div className="dyn-col">
+    <div className="columnist">
       {children}
     </div>
   )
@@ -15,70 +15,67 @@ const DynCol = ({children}) => {
 
 const Articles = ({children}) => {
   return (
-    <div className="dyn-col-art">
+    <div className="articles">
       {children}
     </div>
   )
 }
 
-const Promo = ({children}) => {
+const Plugs = ({children}) => {
   return (
-    <div className="dyn-col-pro">
+    <div className="plugs">
       {children}
     </div>
   )
 }
 
-const Puff = ({puff:{title, body, img}}) => {
-  console.log('EXC', title, body, img)
+const Plug = ({plug:{title, body, img}}) => {
   return (
-    <div>
+    <div className="plug">
       <div>
-        {title}
+        <h5>{title}</h5>
       </div>
-      <div>
-        {body}
-      </div>
-      <div className="bb">
-        {img}
-      </div>
+      <div className="body"
+        dangerouslySetInnerHTML={{
+          __html: body.childMarkdownRemark.html,
+        }}
+        />
     </div>
   )
 }
 
-const puffs = [
-  {
-    title: 'Podcast',
-    body: 'Detta är en ljudmedia innehållandes mekaniska vågor i digitalt format.',
-    img: 'Bild',
-  },
-  {
-    title: 'Mest läst',
-    body: 'Detta är samma artikel som du kan se här breve.',
-    img: 'Bild?',
-  },
-  {
-    title: 'Dagens aktie',
-    body: 'Detta är alltid $TSLA men vi låtsas som att det kan ändras nån gång tills vidare.',
-    img: 'Bild?',
-  }
-]
+const Footer = ({feet}) => (
+  <div className="feet">
+    {feet.map(foot => (
+      <div className="foot">
+        <div className="title">
+          {foot.title}
+        </div>
+        <div className="content"
+          dangerouslySetInnerHTML={{
+            __html: foot.content.childMarkdownRemark.html,
+          }}
+        />
+      </div>
+    ))}
+  </div>
+)
 
 class Template extends React.Component {
   render() {
-    const { children } = this.props
-
+    const { children, categories, plugs, feet} = this.props
     return (
       <Container>
-        <Navigation />
-        <DynCol>
+        <Navigation categories={categories} />
+        <Columns>
           <Articles>
             {children}
           </Articles>
-          <Promo>
-            {puffs.map(puff => <Puff puff={puff} key={puff.title}></Puff>)}
-          </Promo>
-        </DynCol>
+          <Plugs>
+            {plugs.map(plug => <Plug plug={plug} key={plug.title}></Plug>)}
+          </Plugs>
+        </Columns>
+        <Footer feet={feet}/>
       </Container>
     )
   }

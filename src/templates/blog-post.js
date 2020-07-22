@@ -11,9 +11,12 @@ class BlogPostTemplate extends React.Component {
   render() {
     const post = get(this.props, 'data.contentfulBlogPost')
     const siteTitle = get(this.props, 'data.site.siteMetadata.title')
-
+    const categories =  get(this, 'props.data.allContentfulCategory.nodes')
+    const plugs = get(this, 'props.data.allContentfulPlug.edges').map(edge => edge.node)
+    const feet = get(this, 'props.data.allContentfulFooterFoot.nodes')
+  
     return (
-      <Layout location={this.props.location}>
+      <Layout location={this.props.location} categories={categories} plugs={plugs} feet={feet}>
         <div style={{ background: '#fff' }}>
           <Helmet title={`${post.title} | ${siteTitle}`} />
           <div className={heroStyles.hero}>
@@ -48,6 +51,38 @@ export default BlogPostTemplate
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
+    allContentfulCategory {
+      nodes {
+        name
+        nameId
+        tags
+      }
+    }
+    allContentfulFooterFoot {
+      nodes {
+        content {
+          childMarkdownRemark {
+            html
+          }
+        }
+        title
+      }
+    }
+    allContentfulPlug {
+      edges {
+        node {
+          id
+          body {
+            childMarkdownRemark {
+              html
+            }
+          }
+          slug
+          title
+          publishDate
+        }
+      }
+    }
     contentfulBlogPost(slug: { eq: $slug }) {
       title
       publishDate(formatString: "MMMM Do, YYYY")

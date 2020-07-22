@@ -49,22 +49,35 @@ a {
   grid-gap: 5vmin;
 }
 
-.dyn-col {
+.columnist {
   display: flex
 }
 
-.dyn-col-art {
-  flex: 0.8
+.columnist .articles {
+  flex: 1;
+  background: white;
 }
 
-.dyn-col-pro {
-  flex: 0.2;
+.columnist .plugs {
+  display: none;
+  flex: 0;
   background-color: rgba(255,255,255,0.8);
   padding: 10px;
 }
 
-.dyn-col-pro .bb {
-  border-bottom: 1px solid black ;
+@media(min-width: 1000px) {
+  .columnist .articles {
+    flex: 0.8;
+  }
+
+  .columnist .plugs {
+    display: block;
+    flex: 0.2;
+  }
+}
+
+.plug .body {
+  border-bottom: 1px solid #ddd ;
   margin: 10px 0;
 }
 
@@ -88,4 +101,32 @@ a {
 
 .list-inline li {
   display: inline-block;
+}
+
+.feet {
+  display: flex;
+  flex-direction: row;
+  color: #fff;
+  background-color: #333;
+  text-align: center;
+  padding: 10px;
+}
+
+.feet .foot .title {
+  font-size: 1.5em;
+}
+
+.feet .foot {
+  flex: 1;
+  margin: 30px;
+
+  text-align: left;
+}
+
+.feet .foot p {
+  margin: 0;
+}
+
+.feet .foot a:link {
+  text-decoration: none;
 }

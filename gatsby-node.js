@@ -6,19 +6,27 @@ exports.createPages = ({ graphql, actions }) => {
 
   return new Promise((resolve, reject) => {
     const blogPost = path.resolve('./src/templates/blog-post.js')
+    const articleIndex = path.resolve('./src/templates/article-index.js')
     resolve(
       graphql(
         `
-          {
-            allContentfulBlogPost {
-              edges {
-                node {
-                  title
-                  slug
-                }
-              }
+        {
+          allContentfulBlogPost {
+          edges {
+            node {
+              title
+              slug
             }
           }
+          }
+          allContentfulCategory {
+            nodes {
+              name
+              nameId
+              tags
+            }
+          }
+        }
         `
       ).then(result => {
         if (result.errors) {
@@ -27,6 +35,8 @@ exports.createPages = ({ graphql, actions }) => {
         }
 
         const posts = result.data.allContentfulBlogPost.edges
+        const categories = result.data.allContentfulCategory.nodes
+
         posts.forEach(post => {
           createPage({
             path: `/blog/${post.node.slug}/`,
@@ -34,6 +44,16 @@ exports.createPages = ({ graphql, actions }) => {
             context: {
               slug: post.node.slug,
             },
+          })
+        })
+
+        categories.forEach(category => {
+          createPage({
+            path: `/${category.nameId}`,
+            component: articleIndex,
+            context: {
+              tags: category.tags
+            }
           })
         })
       })

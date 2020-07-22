@@ -1,32 +1,22 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import styles from './navigation.module.css'
+import get from 'lodash/get'
 
-export default () => (
+export default ({categories}) =>{
+
+  return (
   <nav role="navigation">
+    <div className={styles.logo}>
+        <Link to="/" className={styles.logolink}>Dagens Kapital</Link>
+    </div>
     
     <ul className={styles.navigation}>
-      <li className={styles.logo}>
-        <Link to="/" className={styles.logolink}>Logotypen</Link>
-      </li>
-      <li className={styles.navigationItem}>
-        <Link to="/fintech">Fintech</Link>
-      </li>
-      <li className={styles.navigationItem}>
-        <Link to="/industri">Industri</Link>
-      </li>
-      <li className={styles.navigationItem}>
-        <Link to="/sport">Sport å skit</Link>
-      </li>
-      <li className={styles.navigationItem}>
-        <Link to="/politik">Politik?</Link>
-      </li>
-      <li className={styles.navigationItem}>
-        <Link to="/är-detta-ens-på-riktigt">Motorfinans</Link>
-      </li>
-      <li className={styles.navigationItem}>
-        <Link to="/:(">Detta</Link>
-      </li>
+      {categories.map(category => (
+        <li className={styles.navigationItem}>
+          <Link to={"/"+category.nameId}>{category.name}</Link>
+        </li>
+      ))}
     </ul>
   </nav>
-)
+)}
