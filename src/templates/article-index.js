@@ -6,13 +6,14 @@ import Hero from '../components/hero'
 import Layout from '../components/layout'
 import ArticlePreview from '../components/article-preview'
 
+
 class RootIndex extends React.Component {
   render() {
     const siteTitle = get(this, 'props.data.site.siteMetadata.title')
     const posts = get(this, 'props.data.allContentfulBlogPost.edges')
     const [author] = get(this, 'props.data.allContentfulPerson.edges')
-    const categories = get(this, 'props.data.allContentfulCategory.nodes')
-    const plugs = get(this, 'props.data.allContentfulPlug.edges').map(edge => edge.node)
+    const categories =  get(this, 'props.data.allContentfulCategory.nodes')
+    const plugs = get(this, 'props.data.allContentfulPlug.edges').map(edge => edge.node) 
     const feet = get(this, 'props.data.allContentfulFooterFoot.nodes')
 
     return (
@@ -41,7 +42,7 @@ class RootIndex extends React.Component {
 export default RootIndex
 
 export const pageQuery = graphql`
-  query HomeQuery {
+  query ArticleIndexQuery($tags: [String]) {
     allContentfulCategory {
       nodes {
         name
@@ -74,7 +75,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
+    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }, filter: {tags: {in: $tags}}) {
       edges {
         node {
           title
